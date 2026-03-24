@@ -497,6 +497,14 @@ bool RenderStatePackager::Execute(IArchiver* pArchiver, const char* DumpPath)
             }
         }
 
+        for (RefCntAutoPtr<IShader>& pShader : Shaders)
+        {
+            if (!pArchiver->AddShader(pShader))
+            {
+                LOG_ERROR_AND_THROW("Failed to archive shader '", pShader->GetDesc().Name, "'.");
+            }
+        }
+
         for (RefCntAutoPtr<IPipelineState>& pPipeline : Pipelines)
             if (!pArchiver->AddPipelineState(pPipeline))
                 LOG_ERROR_AND_THROW("Failed to archive pipeline '", pPipeline->GetDesc().Name, "'.");
